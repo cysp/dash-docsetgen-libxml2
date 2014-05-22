@@ -1,12 +1,35 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
 require 'nokogiri'
+require 'pathname'
+require 'plist'
 require 'sqlite3'
 
 
-filenames = Dir.glob('libxml-*.html')
+contents_path = Pathname.new('libxml2.docset/Contents')
+resources_path = contents_path + 'Resources'
+documents_path = resources_path + 'Documents'
+FileUtils.mkdir_p documents_path
 
-db = SQLite3::Database.new('libxml2.docset/Contents/Resources/docSet.dsidx')
+FileUtils.cp 'up.png', documents_path
+FileUtils.cp 'right.png', documents_path
+FileUtils.cp 'left.png', documents_path
+FileUtils.cp 'home.png', documents_path
+
+plist_hash = {
+  CFBundleIdentifier: 'libxml2',
+  CFBundleName: 'libxml2',
+  DocSetPlatformFamily: 'libxml2',
+  isDashDocset: true,
+  dashIndexFilePath: 'index.html',
+}
+plist_path = contents_path + 'Info.plist'
+IO.write plist_path, plist_hash.to_plist
+
+filenames = Dir.glob('libxml-*.html') + ['index.html']
+
+db = SQLite3::Database.new((resources_path + 'docSet.dsidx').to_s)
 db.execute('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)')
 db.execute('CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path)')
 db_stmt = db.prepare('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (:name, :type, :path)')
@@ -36,4 +59,12 @@ filenames.each do |filename|
 #      $stdout.print identifier, ': ', h3_node.content, "\n"
     end
   end
+
+  body_node = d.xpath('/h:html/h:body', 'h' => 'http://www.w3.org/1999/xhtml').first
+  good_table_node = d.xpath('/h:html/h:body/h:table[position()=2]/h:tr/h:td/h:table/h:tr/h:td[position()=2]/h:table', 'h' => 'http://www.w3.org/1999/xhtml').first
+  body_node.children = good_table_node unless good_table_node.nil?
+
+  output_path = documents_path + filename
+  o = File.open(output_path, 'w')
+  d.write_xhtml_to o
 end
