@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="SHORTCUT ICON" href="/favicon.ico" />
+    <style type="text/css">
+TD {font-family: Verdana,Arial,Helvetica}
+BODY {font-family: Verdana,Arial,Helvetica; margin-top: 2em; margin-left: 0em; margin-right: 0em}
+H1 {font-family: Verdana,Arial,Helvetica}
+H2 {font-family: Verdana,Arial,Helvetica}
+H3 {font-family: Verdana,Arial,Helvetica}
+A:link, A:visited, A:active { text-decoration: underline }
+</style>
+    <style type="text/css">
+      div.deprecated pre.programlisting {border-style: double;border-color:red}
+      pre.programlisting {border-style: double;background: #EECFA1}
+    </style>
+    <title>Reference Manual for libxml2</title>
+  </head>
+  <body bgcolor="#8b7765" text="#000000" link="#a06060" vlink="#000000">
+    <table border="0" cellspacing="0" cellpadding="1" width="100%">
+      <tr>
+        <td>
+          <table border="0" cellspacing="0" cellpadding="1" width="100%" bgcolor="#000000">
+            <tr>
+              <td>
+                <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                  <tr>
+                    <td bgcolor="#fffacd">
+                      <h2>Table of Contents</h2>
+                      <ul>
+                        <li><a href="libxml-DOCBparser.html">DOCBparser</a>: old DocBook SGML parser</li>
+                        <li><a href="libxml-HTMLparser.html">HTMLparser</a>: interface for an HTML 4.0 non-verifying parser</li>
+                        <li><a href="libxml-HTMLtree.html">HTMLtree</a>: specific APIs to process HTML tree, especially serialization</li>
+                        <li><a href="libxml-SAX.html">SAX</a>: Old SAX version 1 handler, deprecated</li>
+                        <li><a href="libxml-SAX2.html">SAX2</a>: SAX2 parser interface used to build the DOM tree</li>
+                        <li><a href="libxml-c14n.html">c14n</a>: Provide Canonical XML and Exclusive XML Canonicalization</li>
+                        <li><a href="libxml-catalog.html">catalog</a>: interfaces to the Catalog handling system</li>
+                        <li><a href="libxml-chvalid.html">chvalid</a>: Unicode character range checking</li>
+                        <li><a href="libxml-debugXML.html">debugXML</a>: Tree debugging APIs</li>
+                        <li><a href="libxml-dict.html">dict</a>: string dictionnary</li>
+                        <li><a href="libxml-encoding.html">encoding</a>: interface for the encoding conversion functions</li>
+                        <li><a href="libxml-entities.html">entities</a>: interface for the XML entities handling</li>
+                        <li><a href="libxml-globals.html">globals</a>: interface for all global variables of the library</li>
+                        <li><a href="libxml-hash.html">hash</a>: Chained hash tables</li>
+                        <li><a href="libxml-list.html">list</a>: lists interfaces</li>
+                        <li><a href="libxml-nanoftp.html">nanoftp</a>: minimal FTP implementation</li>
+                        <li><a href="libxml-nanohttp.html">nanohttp</a>: minimal HTTP implementation</li>
+                        <li><a href="libxml-parser.html">parser</a>: the core parser module</li>
+                        <li><a href="libxml-parserInternals.html">parserInternals</a>: internals routines and limits exported by the parser.</li>
+                        <li><a href="libxml-pattern.html">pattern</a>: pattern expression handling</li>
+                        <li><a href="libxml-relaxng.html">relaxng</a>: implementation of the Relax-NG validation</li>
+                        <li><a href="libxml-schemasInternals.html">schemasInternals</a>: internal interfaces for XML Schemas</li>
+                        <li><a href="libxml-schematron.html">schematron</a>: XML Schemastron implementation</li>
+                        <li><a href="libxml-threads.html">threads</a>: interfaces for thread handling</li>
+                        <li><a href="libxml-tree.html">tree</a>: interfaces for tree manipulation</li>
+                        <li><a href="libxml-uri.html">uri</a>: library of generic URI related routines</li>
+                        <li><a href="libxml-valid.html">valid</a>: The DTD validation</li>
+                        <li><a href="libxml-xinclude.html">xinclude</a>: implementation of XInclude</li>
+                        <li><a href="libxml-xlink.html">xlink</a>: unfinished XLink detection module</li>
+                        <li><a href="libxml-xmlIO.html">xmlIO</a>: interface for the I/O interfaces used by the parser</li>
+                        <li><a href="libxml-xmlautomata.html">xmlautomata</a>: API to build regexp automata</li>
+                        <li><a href="libxml-xmlerror.html">xmlerror</a>: error handling</li>
+                        <li><a href="libxml-xmlexports.html">xmlexports</a>: macros for marking symbols as exportable/importable.</li>
+                        <li><a href="libxml-xmlmemory.html">xmlmemory</a>: interface for the memory allocator</li>
+                        <li><a href="libxml-xmlmodule.html">xmlmodule</a>: dynamic module loading</li>
+                        <li><a href="libxml-xmlreader.html">xmlreader</a>: the XMLReader implementation</li>
+                        <li><a href="libxml-xmlregexp.html">xmlregexp</a>: regular expressions handling</li>
+                        <li><a href="libxml-xmlsave.html">xmlsave</a>: the XML document serializer</li>
+                        <li><a href="libxml-xmlschemas.html">xmlschemas</a>: incomplete XML Schemas structure implementation</li>
+                        <li><a href="libxml-xmlschemastypes.html">xmlschemastypes</a>: implementation of XML Schema Datatypes</li>
+                        <li><a href="libxml-xmlstring.html">xmlstring</a>: set of routines to process strings</li>
+                        <li><a href="libxml-xmlunicode.html">xmlunicode</a>: Unicode character APIs</li>
+                        <li><a href="libxml-xmlversion.html">xmlversion</a>: compile-time version informations</li>
+                        <li><a href="libxml-xmlwriter.html">xmlwriter</a>: text writing API for XML</li>
+                        <li><a href="libxml-xpath.html">xpath</a>: XML Path Language implementation</li>
+                        <li><a href="libxml-xpathInternals.html">xpathInternals</a>: internal interfaces for XML Path Language implementation</li>
+                        <li><a href="libxml-xpointer.html">xpointer</a>: API to handle XML Pointers</li>
+                      </ul>
+                      <p>
+                        <a href="../bugs.html">Daniel Veillard</a>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
