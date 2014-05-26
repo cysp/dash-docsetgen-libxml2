@@ -28,7 +28,7 @@ plist_hash = {
 plist_path = contents_path + 'Info.plist'
 IO.write plist_path, plist_hash.to_plist
 
-filenames = Dir.glob('libxml-*.html') + ['index.html']
+filenames = Dir.glob('libxml-*.html') + ['index.html'] - ['libxml-lib.html']
 
 db = SQLite3::Database.new((resources_path + 'docSet.dsidx').to_s)
 db.execute('CREATE TABLE searchIndex(id INTEGER PRIMARY KEY, name TEXT, type TEXT, path TEXT)')
