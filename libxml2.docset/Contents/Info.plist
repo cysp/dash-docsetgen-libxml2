@@ -6,6 +6,8 @@
 	<string>libxml2</string>
 	<key>CFBundleName</key>
 	<string>libxml2</string>
+	<key>DashDocSetFamily</key>
+	<string>dashtoc</string>
 	<key>DocSetPlatformFamily</key>
 	<string>libxml2</string>
 	<key>dashIndexFilePath</key>
