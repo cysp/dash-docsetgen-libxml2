@@ -23,6 +23,7 @@ plist_hash = {
   DocSetPlatformFamily: 'libxml2',
   isDashDocset: true,
   dashIndexFilePath: 'index.html',
+  DashDocSetFamily: 'dashtoc',
 }
 plist_path = contents_path + 'Info.plist'
 IO.write plist_path, plist_hash.to_plist
@@ -35,28 +36,50 @@ db.execute('CREATE UNIQUE INDEX anchor ON searchIndex (name, type, path)')
 db_stmt = db.prepare('INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (:name, :type, :path)')
 
 filenames.each do |filename|
+  module_name = nil
+  case filename
+  when /^libxml-(.*)\.html/
+    module_name = $1
+  end
+
   i = IO.read(filename)
   d = Nokogiri::XML.parse(i)
   h3_nodes = d.xpath('//h:h3/h:a[@name]/..', 'h' => 'http://www.w3.org/1999/xhtml')
+
+  if h3_nodes.count && !module_name.nil? then
+    db_stmt.execute(name: module_name, type: 'Module', path: filename)
+  end
 
   h3_nodes.each do |h3_node|
     a_node = h3_node.first_element_child
     identifier = a_node.attribute('name').value
     h3_content = h3_node.content
 
+    dash_type = nil
+    dash_name = nil;
     case h3_content
     when /^Enum (.*)/
-      db_stmt.execute(name: $1, type: 'Enum', path: '%s#%s' % [filename, identifier])
+      dash_type = 'Enum'
+      dash_name = $1;
     when /^Structure (.*)/
-      db_stmt.execute(name: $1, type: 'Struct', path: '%s#%s' % [filename, identifier])
+      dash_type = 'Struct'
+      dash_name = $1;
     when /^Macro: (.*)/
-      db_stmt.execute(name: $1, type: 'Macro', path: '%s#%s' % [filename, identifier])
+      dash_type = 'Macro'
+      dash_name = $1;
     when /^Function: (.*)/
-      db_stmt.execute(name: $1, type: 'Function', path: '%s#%s' % [filename, identifier])
+      dash_type = 'Function'
+      dash_name = $1;
     when /^Function type: (.*)/
-      db_stmt.execute(name: $1, type: 'Type', path: '%s#%s' % [filename, identifier])
+      dash_type = 'Type'
+      dash_name = $1;
 #    else
 #      $stdout.print identifier, ': ', h3_node.content, "\n"
+    end
+
+    if !dash_type.nil? && !dash_name.nil? then
+      db_stmt.execute(name: dash_name, type: dash_type, path: '%s#%s' % [filename, identifier])
+      h3_node.prepend_child('<a name=\'//apple_ref/cpp/%s/%s\' class=\'dashAnchor\'/>' % [dash_type, identifier])
     end
   end
 
